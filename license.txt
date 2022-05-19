@@ -1,0 +1,11 @@
+Model Information:
+* title:	New Balance NB 574 captured with RealityScan
+* source:	https://sketchfab.com/3d-models/new-balance-nb-574-captured-with-realityscan-cc96b92e46f94cda9e9d410656e38ea7
+* author:	alban (https://sketchfab.com/alban)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "New Balance NB 574 captured with RealityScan" (https://sketchfab.com/3d-models/new-balance-nb-574-captured-with-realityscan-cc96b92e46f94cda9e9d410656e38ea7) by alban (https://sketchfab.com/alban) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
