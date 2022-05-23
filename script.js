@@ -35,6 +35,8 @@ renderer.setPixelRatio(window.devicePixelRatio);
 // renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setSize(sizes.width, sizes.height);
 renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 container.appendChild(renderer.domElement);
 
 // const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -45,9 +47,44 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xefefef);
 // scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
+
+const ambient = new THREE.AmbientLight(0xffffff, 0.1);
+scene.add(ambient);
+
+//Spot Light
+const spotLight = new THREE.SpotLight(0xffffff, 2);
+spotLight.position.set(-1, 1, 1);
+spotLight.angle = Math.PI / 4;
+spotLight.penumbra = 0.1;
+spotLight.decay = 1;
+spotLight.castShadow = true;
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
+
+spotLight.shadow.camera.near = 0.3;
+spotLight.shadow.camera.far = 4;
+spotLight.shadow.camera.fov = 30;
+spotLight.shadow.focus = 1;
+scene.add(spotLight);
+
+// const lightHelper = new THREE.SpotLightHelper(spotLight);
+// scene.add(lightHelper);
+
+// const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+// scene.add(spotLightCameraHelper);
+
+const geometry = new THREE.PlaneBufferGeometry(1, 1);
+// const material = new THREE.MeshPhongMaterial({ color: 0x808080, dithering: true });
+const material = new THREE.MeshPhongMaterial({ color: 0xEFEFEF, dithering: true });
+const plane = new THREE.Mesh(geometry, material);
+plane.rotation.x = - Math.PI * 0.5;
+plane.position.y = -0.06;
+plane.receiveShadow = true;
+scene.add(plane);
+
 // const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
 const camera = new THREE.PerspectiveCamera(40, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(0.36, 0, 0);
+camera.position.set(0.36, 0.5, 0);
 // camera.lookAt(98.9, -6.2, 8.3);
 
 const controls = new OrbitControls(camera, container);
@@ -69,6 +106,18 @@ loader.load('scene.gltf', function (gltf) {
     const model = gltf.scene;
     model.position.set(0.01, 0.30, 0.35);
     model.rotation.set(0.2, 0, 0);
+    model.traverse( function ( child ) {
+
+        if ( child.isMesh ) {
+  
+        //   child.material.shading = THREE.SmoothShading;
+          child.castShadow = true;
+        //   child.receiveShadow = true;
+        //   child.material.metalness = 1;
+        //   child.material.roughness = 1;
+        }
+  
+      });
     // model.scale.set(1, 1, 1);
     scene.add(model);
 
@@ -98,12 +147,12 @@ window.onresize = function () {
 //Color Changing of Shoes
 document.querySelectorAll('.shoeColor').forEach(item => {
     item.addEventListener('click', event => {
-      var productColor = item.getAttribute("data-image");
-      if(productColor != null){
-          console.log(productColor + " selected")
-      }
+        var productColor = item.getAttribute("data-image");
+        if (productColor != null) {
+            console.log(productColor + " selected")
+        }
     })
-  })
+})
 
 
 function animate() {
